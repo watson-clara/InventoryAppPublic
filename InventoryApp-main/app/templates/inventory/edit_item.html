@@ -1,0 +1,52 @@
+{% extends "layout.html" %}
+
+{% block additional_head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/add.css') }}">
+{% endblock %}
+
+{% block title %}Edit Item{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1>Edit Item</h1>
+    <form method="POST" class="compact-form" id="editItemForm" action="{{ url_for('inventory.edit_item', item_code=item.code) }}">
+        <div class="form-row">
+            <div class="form-group">
+                <label for="code">Code:</label>
+                <input type="text" id="code" name="code" value="{{ item.code }}" readonly>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group">
+                <label for="description">Description:</label>
+                <textarea id="description" name="description" rows="2" required>{{ item.description }}</textarea>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group">
+                <label for="minimum_quantity">Min Quantity:</label>
+                <input type="number" id="minimum_quantity" name="minimum_quantity" value="{{ item.minimum_quantity }}" required>
+            </div>
+            <div class="form-group">
+                <label for="max_quantity">Max Quantity:</label>
+                <input type="number" id="max_quantity" name="max_quantity" value="{{ item.max_quantity }}" required>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group">
+                <label for="vendor_id">Vendor:</label>
+                <select id="vendor_id" name="vendor_id">
+                    <option value="">No Vendor</option>
+                    {% for vendor in vendors %}
+                        <option value="{{ vendor.id }}" {% if item.vendor and vendor.id == item.vendor.id %}selected{% endif %}>{{ vendor.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        <div class="form-row">
+            <button type="submit" class="btn btn-primary">Update Item</button>
+        </div>
+    </form>
+</div>
+{% endblock %}
+

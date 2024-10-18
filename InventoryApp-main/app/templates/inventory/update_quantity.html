@@ -1,0 +1,30 @@
+{% extends "layout.html" %}
+
+{% block additional_head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/add.css') }}">
+{% endblock %}
+
+{% block title %}Update Quantity{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2>Update Quantity</h2>
+    <form method="POST" class="compact-form">
+        <div class="form-group">
+            <label for="item_code">Item Code:</label>
+            <input type="text" id="item_code" name="item_code" value="{{ item.code }}" readonly>
+        </div>
+        <div class="form-group">
+            <label for="new_quantity">New Quantity:</label>
+            <input type="number" id="new_quantity" name="new_quantity" required>
+        </div>
+        
+        <button type="submit" class="btn btn-primary">Update Quantity</button>
+        {% if current_user.role == 'staff' %}
+            <a href="{{ url_for('main.staff_home') }}" class="btn btn-secondary">Cancel</a>
+        {% else %}
+            <a href="{{ url_for('inventory.item_list') }}" class="btn btn-secondary">Cancel</a>
+        {% endif %}
+    </form>
+</div>
+{% endblock %}

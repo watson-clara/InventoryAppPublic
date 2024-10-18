@@ -1,0 +1,102 @@
+/* ==============================
+   Color Variables (From Main CSS)
+   ============================== */
+   :root {
+    --primary-color: #3498db;          /* Matches primary color in main CSS */
+    --primary-hover-color: #2980b9;    /* Matches hover color for primary in main CSS */
+    --secondary-color: #2c3e50;        /* Matches secondary color in main CSS */
+    --secondary-hover-opacity: 0.8;    /* Adjusted for hover opacity */
+    --input-border-color: #ddd;        /* Matches input border color */
+    --input-border-radius: 4px;
+    --white-color: #fff;
+}
+
+/* ==============================
+   Container
+   ============================== */
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* ==============================
+   Form Styles
+   ============================== */
+.compact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* Space between form fields */
+}
+
+.form-row {
+    display: flex;
+    gap: 15px; /* Space between rows */
+}
+
+.form-group {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    margin-bottom: 5px; /* Space below label */
+}
+
+/* ==============================
+   Input Fields
+   ============================== */
+input, select, textarea {
+    width: 100%;
+    padding: 5px;
+    border: 1px solid var(--input-border-color);
+    border-radius: var(--input-border-radius);
+    box-sizing: border-box;
+}
+
+/* ==============================
+   Vendor Selection
+   ============================== */
+.vendor-selection {
+    display: flex;
+    gap: 5px; /* Space between vendor selection elements */
+}
+
+.vendor-selection select {
+    flex-grow: 1;
+}
+
+/* ==============================
+   Button Styles
+   ============================== */
+.btn {
+    padding: 8px 12px;
+    border: none;
+    border-radius: var(--input-border-radius);
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+/* Primary Button */
+.btn-primary {
+    background-color: var(--primary-color);
+    color: var(--white-color);
+}
+
+/* Primary Button Hover */
+.btn-primary:hover {
+    background-color: var(--primary-hover-color);
+}
+
+/* Secondary Button */
+.btn-secondary {
+    background-color: var(--secondary-color);
+    color: var(--white-color);
+    text-decoration: none;
+}
+
+/* Secondary Button Hover */
+.btn-secondary:hover {
+    opacity: var(--secondary-hover-opacity);
+}

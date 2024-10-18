@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Print QR Codes</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        .qr-code-container { display: inline-block; width: 25%; padding: 10px; box-sizing: border-box; }
+        .qr-code-container img { max-width: 100%; height: auto; }
+        .qr-code-container p { margin: 5px 0; font-size: 12px; }
+        @media print { .no-print { display: none; } }
+    </style>
+</head>
+<body>
+    <h1 class="no-print">QR Codes for Selected Items</h1>
+    {% for qr_code in qr_codes %}
+    <div class="qr-code-container">
+        <p><strong>{{ qr_code.item.code }}: </strong>{{ qr_code.item.description }}</p>
+        <img src="data:image/png;base64,{{ qr_code.qr_code }}" alt="QR Code">
+        <p>min: {{ qr_code.item.minimum_quantity }} max: {{ qr_code.item.max_quantity }}</p>
+        
+    </div>
+    {% endfor %}
+    <button class="no-print" onclick="window.print()">Print QR Codes</button>
+</body>
+</html>

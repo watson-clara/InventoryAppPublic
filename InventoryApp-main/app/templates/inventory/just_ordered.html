@@ -1,0 +1,25 @@
+{% extends "layout.html" %}
+
+{% block additional_head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/add.css') }}">
+{% endblock %}
+
+{% block title %}Just Ordered - {{ item.code }}{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2>Update Order Information</h2>
+    <form method="POST" class="compact-form">
+        <div class="form-group">
+            <label for="item_code">Item Code:</label>
+            <input type="text" id="item_code" name="item_code" value="{{ item.code }}" readonly>
+        </div>
+        <div class="form-group">
+            <label for="order_quantity">Order Quantity:</label>
+            <input type="number" id="order_quantity" name="order_quantity" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Update Order Info</button>
+    </form>
+</div>
+{% endblock %}
+

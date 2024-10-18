@@ -1,0 +1,62 @@
+{% extends "layout.html" %}
+
+{% block additional_head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/add.css') }}">
+{% endblock %}
+
+{% block title %}Edit User{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1>Edit User</h1>
+    <form method="POST" class="compact-form">
+        <div class="form-row">
+            <div class="form-group">
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" value="{{ user.name }}" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" value="{{ user.email }}" required>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group">
+                <label for="password">New Password (leave blank to keep current):</label>
+                <div class="password-input-wrapper">
+                    <input type="password" id="password" name="password">
+                    <button type="button" class="toggle-password" data-target="password">
+                        <i class="fas fa-eye"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="confirm_password">Confirm New Password:</label>
+                <div class="password-input-wrapper">
+                    <input type="password" id="confirm_password" name="confirm_password">
+                    <button type="button" class="toggle-password" data-target="confirm_password">
+                        <i class="fas fa-eye"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group">
+                <label for="role">Role:</label>
+                <select id="role" name="role" required>
+                    <option value="staff" {% if user.role == 'staff' %}selected{% endif %}>Staff - Can update inventory quantities</option>
+                    <option value="manager" {% if user.role == 'manager' %}selected{% endif %}>Manager - Can manage inventory and vendors</option>
+                    <option value="admin" {% if user.role == 'admin' %}selected{% endif %}>Admin - Full access to all features</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-row">
+            <button type="submit" class="btn btn-primary">Update User</button>
+        </div>
+    </form>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/users/password.js') }}"></script>
+{% endblock %}

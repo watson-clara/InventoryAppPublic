@@ -1,0 +1,77 @@
+{% extends "layout.html" %}
+
+{% block title %}View Item - {{ item.code }}{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1>Item Details</h1>
+    <table class="table">
+        <tr>
+            <th>Code:</th>
+            <td>{{ item.code }}</td>
+        </tr>
+        <tr>
+            <th>Description:</th>
+            <td>{{ item.description }}</td>
+        </tr>
+        <tr>
+            <th>Quantity:</th>
+            <td>{{ item.quantity }}</td>
+        </tr>
+        <tr>
+            <th>Minimum Quantity:</th>
+            <td>{{ item.minimum_quantity }}</td>
+        </tr>
+        <tr>
+            <th>Maximum Quantity:</th>
+            <td>{{ item.max_quantity }}</td>
+        </tr>
+
+        <tr>
+            <th>Last Order Date:</th>
+            <td>{{ item.last_order_date }}</td>
+        </tr>
+        <tr>
+            <th>Last Order Quantity:</th>
+            <td>{{ item.last_order_quantity }}</td>
+        </tr>
+        <tr>
+            <th>Quantity Last Updated By:</th>
+            <td>
+                {% if item.quantity_updater %}
+                    <a href="{{ url_for('user.view_user', user_id=item.quantity_updater.id) }}">{{ item.quantity_updater.name }}</a>
+                {% else %}
+                    N/A
+                {% endif %}
+            </td>
+        </tr>
+        <tr>
+            <th>Quantity Updated At:</th>
+            <td>{{ item.quantity_updated_at }}</td>
+        </tr>
+        <tr>
+            <th>Stock Status:</th>
+            <td>{{ item.stock_status }}</td>
+        </tr>
+        <tr>
+            <th>Reorder Quantity:</th>
+            <td>{{ item.reorder_quantity }}</td>
+        </tr>
+        <tr>
+            <th>Vendor:</th>
+            <td>
+                {% if item.vendor %}
+                    <a href="{{ url_for('vendor.view_vendor', vendor_id=item.vendor.id) }}">{{ item.vendor.name }}</a>
+                {% else %}
+                    No Vendor
+                {% endif %}
+            </td>
+        </tr>
+    </table>
+    <a href="{{ url_for('inventory.edit_item', item_code=item.code) }}" class="btn btn-primary">Edit Item</a>
+    <a href="{{ url_for('inventory.update_quantity', item_code=item.code) }}" class="btn btn-secondary">Update Quantity</a>
+    <a href="{{ url_for('inventory.generate_qr_code', item_code=item.code) }}" target="_blank" class="btn btn-secondary">View QR Code</a>
+    <a href="{{ url_for('inventory.just_ordered', item_code=item.code) }}" class="btn btn-success">Just Ordered</a>
+    <a href="{{ url_for('inventory.item_list') }}" class="btn btn-secondary">Back to Inventory List</a>
+</div>
+{% endblock %}

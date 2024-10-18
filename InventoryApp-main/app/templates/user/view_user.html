@@ -1,0 +1,52 @@
+{% extends "layout.html" %}
+
+{% block title %}View User - {{ user.name }}{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1>User Details</h1>
+    <table class="table">
+        <tr>
+            <th>Name:</th>
+            <td>{{ user.name }}</td>
+        </tr>
+        <tr>
+            <th>Email:</th>
+            <td>{{ user.email }}</td>
+        </tr>
+        <tr>
+            <th>Role:</th>
+            <td>{{ user.role }}</td>
+        </tr>
+    </table>
+    
+    <h2>Items Last Updated by {{ user.name }}</h2>
+    {% if user.updated_items %}
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Code</th>
+                    <th>Description</th>
+                    <th>Current Quantity</th>
+                    <th>Last Updated At</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in user.updated_items %}
+                    <tr>
+                        <td><a href="{{ url_for('inventory.view_item', item_code=item.code) }}">{{ item.code }}</a></td>
+                        <td>{{ item.description }}</td>
+                        <td>{{ item.quantity }}</td>
+                        <td>{{ item.quantity_updated_at }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>This user hasn't updated any item quantities yet.</p>
+    {% endif %}
+    
+    <a href="{{ url_for('user.edit_user', user_id=user.id) }}" class="btn btn-primary">Edit User</a>
+    <a href="{{ url_for('user.user_list') }}" class="btn btn-secondary">Back to User List</a>
+</div>
+{% endblock %}

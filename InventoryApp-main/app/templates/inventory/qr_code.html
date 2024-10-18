@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Code - {{ item.code }}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 10px;
+        }
+        p {
+            font-size: 16px;
+            margin: 5px 0;
+        }
+        img {
+            max-width: 300px;
+            height: auto;
+            margin: 10px 0;
+        }
+        @media print {
+            body {
+                padding: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <p><strong>{{ item.code }}</strong></p>
+    <p>min: {{ item.minimum_quantity }}   max: {{ item.max_quantity }}</p>
+    <img src="data:image/png;base64,{{ qr_code }}" alt="QR Code">
+    <p>{{ item.description }}</p>
+    
+</body>
+</html>

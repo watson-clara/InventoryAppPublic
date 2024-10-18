@@ -1,0 +1,77 @@
+{% extends "layout.html" %}
+
+{% block additional_head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/table.css') }}">
+{% endblock %}
+
+{% block title %}View Users{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="page-header">
+        <h1>User List</h1>
+    </div>
+    <a href="{{ url_for('user.add_user') }}" class="btn btn-primary btn-sm">Add New User</a>
+    <form id="filterForm" class="filter-form" method="GET" action="{{ url_for('user.user_list') }}">
+        <div class="filter-search-container">
+            <div class="search-container">
+                <input type="text" id="searchInput" name="search" placeholder="Search users" value="{{ search_query }}">
+                <button type="submit" class="btn btn-primary">Search</button>
+            </div>
+        </div>
+    </form>
+    {% if users %}
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Role</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in users %}
+                <tr>
+                    <td><a href="{{ url_for('user.view_user', user_id=user.id) }}">{{ user.name }}</a></td>
+                    <td>{{ user.email }}</td>
+                    <td>{{ user.role }}</td>
+                    <td>
+                        <a href="{{ url_for('user.edit_user', user_id=user.id) }}" class="btn btn-sm btn-secondary">Edit</a>
+                        <a href="{{ url_for('user.delete_user', user_id=user.id) }}" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to delete this user?')">Delete</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="users-info-container">
+        <p class="users-count">Showing users {{ users_start }} to {{ users_end }} of {{ total_users }}</p>
+    </div>
+    <div class="pagination">
+        {% if page > 1 %}
+        <a href="{{ url_for('user.user_list', page=1, search=search_query) }}">&laquo;&laquo;</a>
+        <a href="{{ url_for('user.user_list', page=page-1, search=search_query) }}">&laquo;</a>
+        {% endif %}
+        {% for p in range(1, total_pages + 1) if p >= page - 2 and p <= page + 2 %}
+            {% if p == page %}
+            <span class="current-page">{{ p }}</span>
+            {% else %}
+            <a href="{{ url_for('user.user_list', page=p, search=search_query) }}">{{ p }}</a>
+            {% endif %}
+        {% endfor %}
+        {% if page < total_pages %}
+        <a href="{{ url_for('user.user_list', page=page+1, search=search_query) }}">&raquo;</a>
+        <a href="{{ url_for('user.user_list', page=total_pages, search=search_query) }}">&raquo;&raquo; {{ total_pages }}</a>
+        {% endif %}
+    </div>
+    {% else %}
+    <p>No users found.</p>
+    {% endif %}
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/user/view_users.js') }}"></script>
+{% endblock %}

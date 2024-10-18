@@ -1,0 +1,144 @@
+{% extends "layout.html" %}
+
+{% block additional_head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/table.css') }}">
+{% endblock %}
+
+{% block title %}View Inventory{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="page-header">
+        <h1>Inventory Items</h1> 
+    </div>
+    <a href="{{ url_for('inventory.add_item') }}" class="btn btn-primary btn-sm">Add New Item</a>
+    <button id="printInventory" class="btn btn-primary btn-sm">Print Current View</button>
+    <button id="printQRCodes" class="btn btn-primary btn-sm">Print Selected QR Codes</button>
+    <form id="filterForm" class="filter-form" method="GET" action="{{ url_for('inventory.item_list') }}">
+        <div class="filter-search-container">
+            <div class="filter-options">
+                <label for="stock_status">Stock Status
+                    <select name="stock_status" id="stock_status">
+                        <option value="">All Stock Status</option>
+                        <option value="in stock" {% if stock_status=='in stock' %}selected{% endif %}>In Stock</option>
+                        <option value="low stock" {% if stock_status=='low stock' %}selected{% endif %}>Low Stock
+                        </option>
+                        <option value="out of stock" {% if stock_status=='out of stock' %}selected{% endif %}>Out of
+                            Stock</option>
+                    </select>
+                </label>
+                <label for="vendor_id">Vendor
+                    <select name="vendor_id" id="vendor_id">
+                        <option value="">All Vendors</option>
+                        {% for vendor in vendors %}
+                        <option value="{{ vendor.id }}" {% if vendor_id|int==vendor.id %}selected{% endif %}>{{
+                            vendor.name }}</option>
+                        {% endfor %}
+                    </select>
+                </label>
+
+                
+            </div>
+            <div class="search-container">
+                <input type="text" id="searchInput" name="search" placeholder="Search items" value="{{ search_query }}">
+                <button type="submit" class="btn btn-primary">Go</button>
+            </div>
+        </div>
+    </form>
+    {% if items %}
+
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Code</th>
+                    <th>Description</th>
+                    <th>Quantity</th>
+                    <th>Min Quantity</th>
+                    <th>Max Quantity</th>
+                    <th>Vendor</th>
+                    <th>Stock Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in items %}
+                <tr>
+                    <td><a href="{{ url_for('inventory.view_item', item_code=item.code) }}">{{ item.code }}</a></td>
+                    <td>{{ item.description }}</td>
+                    <td>{{ item.quantity }}</td>
+                    <td>{{ item.minimum_quantity }}</td>
+                    <td>{{ item.max_quantity }}</td>
+                    <td>
+                        {% if item.vendor %}
+                            <a href="{{ url_for('vendor.view_vendor', vendor_id=item.vendor.id) }}">{{ item.vendor.name }}</a>
+                        {% else %}
+                            No Vendor
+                        {% endif %}
+                    </td>
+                    <td>{{ item.stock_status }}</td>
+                    <td>
+                        <a href="{{ url_for('inventory.update_quantity', item_code=item.code) }}" class="btn btn-sm btn-secondary action-btn" title="Update Quantity">
+                            <i class="fas fa-edit"></i>
+                        </a>
+                        <a href="{{ url_for('inventory.edit_item', item_code=item.code) }}" class="btn btn-sm btn-secondary action-btn" title="Edit Item">
+                            <i class="fas fa-pencil-alt"></i>
+                        </a>
+                        <a href="{{ url_for('inventory.generate_qr_code', item_code=item.code) }}" target="_blank" class="btn btn-sm btn-secondary action-btn" title="Generate QR Code">
+                            <i class="fas fa-qrcode"></i>
+                        </a>
+                        <a href="{{ url_for('inventory.just_ordered', item_code=item.code) }}" class="btn btn-sm btn-success action-btn" title="Just Ordered">
+                            <i class="fas fa-truck"></i>
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+    </div>
+    <div class="items-info-container">
+        <p class="items-count">Showing items {{ items_start }} to {{ items_end }} of {{ total_items }}</p>
+
+    </div>
+    <div class="pagination">
+        {% if page > 1 %}
+        <a
+            href="{{ url_for('inventory.item_list', page=1, search=search_query, stock_status=stock_status, vendor_id=vendor_id, last_order_date=last_order_date) }}">&laquo;&laquo;</a>
+        <a
+            href="{{ url_for('inventory.item_list', page=page-1, search=search_query, stock_status=stock_status, vendor_id=vendor_id, last_order_date=last_order_date) }}">&laquo;</a>
+        {% endif %}
+        {% for p in range(1, total_pages + 1) if p >= page - 2 and p <= page + 2 %} {% if p==page %} <span
+            class="current-page">{{ p }}</span>
+            {% else %}
+            <a
+                href="{{ url_for('inventory.item_list', page=p, search=search_query, stock_status=stock_status, vendor_id=vendor_id, last_order_date=last_order_date) }}">{{
+                p }}</a>
+            {% endif %}
+            {% endfor %}
+            {% if page < total_pages %} <a
+                href="{{ url_for('inventory.item_list', page=page+1, search=search_query, stock_status=stock_status, vendor_id=vendor_id, last_order_date=last_order_date) }}">
+                &raquo;</a>
+                <a
+                    href="{{ url_for('inventory.item_list', page=total_pages, search=search_query, stock_status=stock_status, vendor_id=vendor_id, last_order_date=last_order_date) }}">&raquo;&raquo;
+                    {{ total_pages }}</a>
+                {% endif %}
+    </div>
+    {% else %}
+    <p>No items found in inventory.</p>
+    {% endif %}
+</div>
+
+<script>
+document.getElementById('printInventory').addEventListener('click', function() {
+    var currentUrl = new URL(window.location.href);
+    var printUrl = "{{ url_for('inventory.print_inventory') }}?" + currentUrl.searchParams.toString();
+    window.open(printUrl, '_blank');
+});
+</script>
+
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/inventory/view_inventory.js') }}"></script>
+{% endblock %}

@@ -1,0 +1,66 @@
+{% extends "layout.html" %}
+
+{% block title %}View Vendor - {{ vendor.name }}{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1>Vendor Details</h1>
+    <table class="table">
+        <tr>
+            <th>Name:</th>
+            <td>{{ vendor.name }}</td>
+        </tr>
+        <tr>
+            <th>Contact Person:</th>
+            <td>{{ vendor.contact_person }}</td>
+        </tr>
+        <tr>
+            <th>Phone:</th>
+            <td>{{ vendor.phone }}</td>
+        </tr>
+        <tr>
+            <th>Email:</th>
+            <td>{{ vendor.email }}</td>
+        </tr>
+        <tr>
+            <th>Address:</th>
+            <td>{{ vendor.address }}</td>
+        </tr>
+    </table>
+    
+    <h2>Items Supplied by This Vendor</h2>
+    {% if items %}
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Code</th>
+                    <th>Description</th>
+                    <th>Quantity</th>
+                    <th>Last Order Date</th>
+                    <th>Last Order Quantity</th>
+                    <th>Stock Status</th>
+                    <th>Reorder Quantity</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in items %}
+                <tr>
+                    <td><a href="{{ url_for('inventory.view_item', item_code=item.code) }}">{{ item.code }}</a></td>
+                    <td>{{ item.description }}</td>
+                    <td>{{ item.quantity }}</td>
+                    <td>{{ item.last_order_date.strftime('%Y-%m-%d') if item.last_order_date else 'N/A' }}</td>
+                    <td>{{ item.last_order_quantity if item.last_order_quantity else 'N/A' }}</td>
+                    <td>{{ item.stock_status }}</td>
+                    <td>{{ item.reorder_quantity }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No items found for this vendor.</p>
+    {% endif %}
+    
+    <a href="{{ url_for('vendor.edit_vendor', vendor_id=vendor.id) }}" class="btn btn-primary">Edit Vendor</a>
+    <a href="{{ url_for('vendor.vendor_list') }}" class="btn btn-secondary">Back to Vendor List</a>
+</div>
+{% endblock %}

@@ -1,0 +1,51 @@
+{% extends "layout.html" %}
+
+{% block additional_head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/table.css') }}">
+{% endblock %}
+
+{% block title %}Select Items for QR Codes{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1>Select Items for QR Codes</h1>
+    <form action="{{ url_for('inventory.print_qr_codes') }}" method="POST">
+        <div class="table-responsive">
+            <table class="table table-striped table-sm">
+                <thead>
+                    <tr>
+                        <th><input type="checkbox" id="select-all"> Select</th>
+                        <th>Code</th>
+                        <th>Description</th>
+                        <th>Quantity</th>
+                        <th>Stock Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in items %}
+                    <tr>
+                        <td><input type="checkbox" name="selected_items" value="{{ item.code }}"></td>
+                        <td>{{ item.code }}</td>
+                        <td>{{ item.description }}</td>
+                        <td>{{ item.quantity }}</td>
+                        <td>{{ item.stock_status }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <button type="submit" class="btn btn-primary">Print Selected QR Codes</button>
+    </form>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.getElementById('select-all').addEventListener('change', function() {
+    var checkboxes = document.getElementsByName('selected_items');
+    for (var checkbox of checkboxes) {
+        checkbox.checked = this.checked;
+    }
+});
+</script>
+{% endblock %}

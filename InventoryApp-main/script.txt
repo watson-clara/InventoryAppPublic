@@ -1,0 +1,7 @@
+venv\Scripts\activate
+
+set PGPASSWORD=vkFKZkFD278fnT6ClTqIWPthHMIrvSyk
+psql -h dpg-cs4075pu0jms73fke69g-a.oregon-postgres.render.com -U clos_inventory_user -d clos_inventory
+
+$env:PGPASSWORD="vkFKZkFD278fnT6ClTqIWPthHMIrvSyk"
+psql -h dpg-cs4075pu0jms73fke69g-a.oregon-postgres.render.com -U clos_inventory_user -d clos_inventory

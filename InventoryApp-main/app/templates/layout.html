@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Inventory Management{% endblock %}</title>
+    {% block additional_head %}{% endblock %}
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <nav>
+            <ul>
+                {% if current_user.is_authenticated and current_user.role == 'admin' %}
+                    <li><a href="{{ url_for('main.index') }}">Home</a></li>
+                    <li><a href="{{ url_for('inventory.item_list') }}">View Inventory</a></li>
+                    <li><a href="{{ url_for('inventory.reorders') }}">Reorders</a></li>
+                    <li><a href="{{ url_for('vendor.vendor_list') }}">View Vendors</a></li>
+                    <li><a href="{{ url_for('user.user_list') }}">View Users</a></li>
+                {% elif current_user.is_authenticated and current_user.role == 'manager' %}
+                    <li><a href="{{ url_for('main.index') }}">Home</a></li>
+                    <li><a href="{{ url_for('inventory.item_list') }}">View Inventory</a></li>
+                    <li><a href="{{ url_for('inventory.reorders') }}">Reorders</a></li>
+                    <li><a href="{{ url_for('vendor.vendor_list') }}">View Vendors</a></li>
+                {% endif %}
+                {% if current_user.is_authenticated %}
+                    <li><a href="{{ url_for('auth.logout') }}">Logout</a></li>
+                {% else %}
+                    <li><a href="{{ url_for('auth.login') }}">Login</a></li>
+                {% endif %}
+            </ul>
+        </nav>
+
+       
+
+        {% block content %}
+        {% endblock %}
+
+        <div id="loginStatus"></div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+
+    {% block extra_js %}{% endblock %}
+    
+</body>
+</html>

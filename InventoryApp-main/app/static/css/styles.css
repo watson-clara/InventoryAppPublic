@@ -1,0 +1,310 @@
+/* ==============================
+   Color Variables
+   ============================== */
+   :root {
+    --primary-color: #3498db;
+    --primary-hover-color: #2980b9;
+    --secondary-color: #2c3e50;
+    --text-color: #333;
+    --background-color: #f4f4f4;
+    --white-color: #fff;
+    --success-color: #d4edda;
+    --success-text-color: #155724;
+    --success-border-color: #c3e6cb;
+    --error-color: #f8d7da;
+    --error-text-color: #721c24;
+    --error-border-color: #f5c6cb;
+    --table-border-color: #ddd;
+    --table-hover-color: #f5f5f5;
+    --table-stripe-color: #f9f9f9;
+    --in-stock-color: green;
+    --low-stock-color: orange;
+    --out-of-stock-color: red;
+    --unknown-stock-color: #888;
+}
+
+/* ==============================
+   Global Styles
+   ============================== */
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 20px;
+    background-color: var(--background-color);
+    color: var(--text-color);
+}
+
+.container {
+    max-width: 98%;
+    margin: auto;
+    background: var(--white-color);
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h1, h2 {
+    color: var(--secondary-color);
+    margin-bottom: 20px;
+}
+
+/* ==============================
+   Navigation Styles (Horizontal)
+   ============================== */
+nav ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    background-color: #f8f9fa;
+    overflow: hidden;
+}
+
+nav ul li {
+    float: left;
+}
+
+nav ul li a {
+    display: block;
+    color: #333;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+nav ul li a:hover {
+    background-color: #ddd;
+}
+
+/* Clear floats after the navigation */
+nav::after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+/* ==============================
+   Links
+   ============================== */
+a {
+    color: var(--primary-color);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+a:hover {
+    color: var(--primary-hover-color);
+    text-decoration: underline;
+}
+
+/* ==============================
+   Form Styles
+   ============================== */
+form {
+    margin-top: 20px;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+input[type="email"],
+input[type="password"],
+input[type="number"],
+input[type="text"] {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid var(--table-border-color);
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+button, .btn-primary {
+    background-color: var(--primary-color);
+    color: var(--white-color);
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+button:hover, .btn-primary:hover {
+    color: var(--white-color);
+    text-decoration: none;
+    background-color: var(--primary-hover-color);
+}
+
+/* ==============================
+   Messages and Alerts
+   ============================== */
+#message, #loginStatus {
+    margin-top: 20px;
+    padding: 10px;
+    border-radius: 4px;
+    font-style: italic;
+}
+
+.success {
+    background-color: var(--success-color);
+    color: var(--success-text-color);
+    border: 1px solid var(--success-border-color);
+}
+
+.error {
+    background-color: var(--error-color);
+    color: var(--error-text-color);
+    border: 1px solid var(--error-border-color);
+}
+
+/* ==============================
+   Table Styles
+   ============================== */
+.table-container {
+    width: 100%;
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background-color: var(--white-color);
+    font-size: 14px;
+}
+
+th, td {
+    padding: 8px 10px;
+    text-align: left;
+    border-bottom: 1px solid var(--table-border-color);
+}
+
+th {
+    background-color: var(--background-color);
+    font-weight: bold;
+    color: var(--text-color);
+    text-transform: uppercase;
+}
+
+tr:hover {
+    background-color: var(--table-hover-color);
+}
+
+tr:nth-child(even) {
+    background-color: var(--table-stripe-color);
+}
+
+/* ==============================
+   Stock Status Styles
+   ============================== */
+.stock-status {
+    font-weight: bold;
+}
+
+.stock-status.in-stock {
+    color: var(--in-stock-color);
+}
+
+.stock-status.low-stock {
+    color: var(--low-stock-color);
+}
+
+.stock-status.out-of-stock {
+    color: var(--out-of-stock-color);
+}
+
+.stock-status.unknown {
+    color: var(--unknown-stock-color);
+}
+
+/* ==============================
+   Pagination Styles
+   ============================== */
+.pagination {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.pagination a, .pagination span {
+    display: inline-block;
+    padding: 8px 16px;
+    text-decoration: none;
+    color: var(--text-color);
+    background-color: var(--background-color);
+    border-radius: 5px;
+    margin: 0 4px;
+}
+
+.pagination a:hover {
+    background-color: var(--table-hover-color);
+}
+
+.pagination .current-page {
+    background-color: #4CAF50;
+    color: var(--white-color);
+}
+
+/* ==============================
+   Responsive Styles
+   ============================== */
+@media (max-width: 768px) {
+    .container {
+        padding: 10px;
+    }
+
+    table {
+        font-size: 14px;
+    }
+
+    th, td {
+        padding: 8px 10px;
+    }
+}
+
+@media (max-width: 1200px) {
+    table {
+        font-size: 12px;
+    }
+
+    th, td {
+        padding: 6px 8px;
+    }
+}
+
+@media (max-width: 600px) {
+    .hide-on-mobile {
+        display: none;
+    }
+}
+
+.password-input-wrapper {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+}
+
+.toggle-password {
+    position: absolute;
+    right: 5px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    font-size: 16px;
+    color: #666;
+}
+
+.toggle-password:focus {
+    outline: none;
+}
+
+.toggle-password i {
+    pointer-events: none;
+}
